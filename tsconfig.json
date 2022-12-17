@@ -36,6 +36,12 @@
     "noEmit": true,
     "types": ["vitest/globals"],
     "declarationMap": true,
-    "resolveJsonModule": true
+    "resolveJsonModule": true,
+    "baseUrl": ".",
+    "paths": {
+      "~service": ["./src/services/main/index.ts"],
+      "~entities/*": ["./src/entities/*"],
+      "~helpers/*": ["./src/helpers/*"]
+    }
   }
 }
