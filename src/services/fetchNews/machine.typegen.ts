@@ -38,7 +38,6 @@
 "assignPagination": "done.invoke.zod";
 "assignResponse": "done.invoke.fetch";
 "buildURL": "QUERY";
-"concatCategories": "QUERY";
 "constructErrors": "";
 "escaladeFetchError": "error.platform.fetch";
 "escaladeJsonError": "error.platform.json";

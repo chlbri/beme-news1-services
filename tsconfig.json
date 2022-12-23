@@ -40,7 +40,7 @@
     "baseUrl": ".",
     "paths": {
       "~service": ["./src/services/main/index.ts"],
-      "~entities/*": ["./src/entities/*"],
+      "~entities/*": ["src/entities/*"],
       "~helpers/*": ["./src/helpers/*"]
     }
   }

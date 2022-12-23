@@ -103,7 +103,7 @@ describe('Acceptance test', () => {
           data: 'data',
         };
         global.fetch = vi.fn().mockResolvedValue(mockObj as any);
-        const d = await expect({
+        await expect({
           expected: mockObj,
           context: { URL: 'URL' },
         });
@@ -204,25 +204,6 @@ describe('Acceptance test', () => {
         }));
     });
 
-    describe('#3 -> concatCategories', () => {
-      const [acceptance, expect] = assign('concatCategories');
-      test('#1 -> Acceptance', () => acceptance());
-
-      test('#2 -> It concats the categories', () =>
-        expect({
-          context: {},
-          event: { type: 'QUERY', categories: ['technology', 'sports'] },
-          expected: { categories: 'technology,sports' },
-        }));
-
-      test('#3 -> It concats the categories', () =>
-        expect({
-          context: {},
-          event: { type: 'QUERY', categories: ['business', 'health'] },
-          expected: { categories: 'business,health' },
-        }));
-    });
-
     describe('#4 -> buildURL', () => {
       const [acceptance, expect] = assign('buildURL');
 
@@ -232,18 +213,19 @@ describe('Acceptance test', () => {
         // #region Prepare
         const API_URL = process.env.MEDIA_STACK_API_URL;
         const API_KEY = process.env.MEDIA_STACK_APIKEY;
-        const categories = 'business,health';
-        const URL = `${API_URL}?access_key=${API_KEY}&keywords=${categories}`;
+        const categories = ['business', 'health'];
+        const _categories = 'business,health';
+        const URL = `${API_URL}?access_key=${API_KEY}&keywords=${_categories}`;
         // #endregion
 
         expect({
           expected: {
             URL,
-            categories,
             API_URL,
             API_KEY,
           },
-          context: { categories, API_URL, API_KEY },
+          context: { API_URL, API_KEY },
+          event: { type: 'QUERY', categories },
         });
       });
     });

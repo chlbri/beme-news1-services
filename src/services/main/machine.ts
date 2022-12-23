@@ -1,4 +1,5 @@
-import { CATEGORIES } from 'lib/entities/strings';
+import { NewsResponse } from 'src/entities/objects';
+import { CATEGORIES } from 'src/entities/strings';
 import { createMachine } from 'xstate';
 import fetchNews from '../fetchNews/machine';
 import { Context, Events } from './machine.types';
@@ -8,6 +9,9 @@ export const machine = createMachine(
     schema: {
       context: {} as Context,
       events: {} as Events,
+      services: {} as {
+        fetchNews: { data: NewsResponse };
+      },
     },
     tsTypes: {} as import('./machine.typegen').Typegen0,
     predictableActionArguments: true,
@@ -17,6 +21,9 @@ export const machine = createMachine(
     initial: 'cache',
     states: {
       cache: {
+        description:
+          '[service_link](https://stately.ai/registry/editor/5671d57c-0419-4200-9d67-c3a500c1690d?machineId=81fb380e-0af3-428d-8947-3b07c1c59f66)',
+        entry: 'forwardDefaultQuery',
         invoke: {
           src: 'fetchNews',
           id: 'fetchNews',
@@ -32,13 +39,6 @@ export const machine = createMachine(
             },
           ],
         },
-        after: {
-          timeToGetEnvironmentVariables: {
-            target: '#main.cache',
-            actions: ['forwardDefaultQuery'],
-            internal: true,
-          },
-        },
       },
       work: {
         states: {
@@ -50,6 +50,8 @@ export const machine = createMachine(
                 initial: 'idle',
                 states: {
                   loading: {
+                    description:
+                      '[service_link](https://stately.ai/registry/editor/5671d57c-0419-4200-9d67-c3a500c1690d?machineId=81fb380e-0af3-428d-8947-3b07c1c59f66)',
                     invoke: {
                       src: 'fetchNews',
                       id: 'fetchNews',
@@ -68,6 +70,7 @@ export const machine = createMachine(
                     on: {
                       SEARCH: {
                         actions: 'forwardQuery',
+                        description: 'Forward with parameters',
                       },
                     },
                   },

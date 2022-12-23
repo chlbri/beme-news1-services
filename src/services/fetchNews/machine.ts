@@ -1,14 +1,16 @@
 import { assign } from '@xstate/immer';
+import { NewsResponse, newsResponseSchema } from 'src/entities/objects';
 import { createMachine } from 'xstate';
 import { escalate } from 'xstate/lib/actions';
-import { NewsResponse, newsResponseSchema } from '~entities/objects';
 import { ERRORS } from './constants';
+import { buildURL } from './functions';
 import { Context, Events } from './machine.types';
 
 const machine = createMachine(
   {
     id: 'fetchNews',
     initial: 'environment',
+    context: {},
     states: {
       environment: {
         initial: 'API_URL',
@@ -53,7 +55,7 @@ const machine = createMachine(
         on: {
           QUERY: {
             target: 'fetch',
-            actions: ['concatCategories', 'buildURL'],
+            actions: ['buildURL'],
           },
         },
       },
@@ -95,9 +97,9 @@ const machine = createMachine(
       },
       success: {
         type: 'final',
-        data: context => ({
-          news: context.news,
-          pagination: context.pagination,
+        data: ({ news, pagination }) => ({
+          news,
+          pagination,
         }),
       },
       error: {
@@ -105,6 +107,7 @@ const machine = createMachine(
         type: 'final',
       },
     },
+
     schema: {
       context: {} as Context,
       events: {} as Events,
@@ -131,16 +134,15 @@ const machine = createMachine(
       assignAPI_KEY: assign((context, { data }) => {
         context.API_KEY = data;
       }),
-      concatCategories: assign((context, { categories }) => {
-        context.categories = categories?.join(',');
-      }),
-      buildURL: assign(context => {
-        let url = `${context.API_URL}?access_key=${context.API_KEY}`;
-        const { categories, offset, limit } = context;
-        if (categories) url += `&keywords=${categories}`;
-        if (offset) url += `&offset=${offset}`;
-        if (limit) url += `&limit=${limit}`;
-        context.URL = url;
+
+      buildURL: assign((context, { categories, limit, offset }) => {
+        context.URL = buildURL({
+          API_KEY: context.API_KEY,
+          API_URL: context.API_URL,
+          categories,
+          limit,
+          offset,
+        });
       }),
       assignResponse: assign((context, { data }) => {
         context.response = data;
@@ -168,7 +170,6 @@ const machine = createMachine(
       get_API_URL: async () => {
         const out = process.env.MEDIA_STACK_API_URL;
         const empty = !out || out === 'undefined';
-        out; //?
         if (empty) throw new Error('No API_URL');
 
         return out;
@@ -183,7 +184,6 @@ const machine = createMachine(
       },
 
       fetchNews: async context => {
-        global.fetch; //?
         // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
         const response = await fetch(context.URL!);
         if (!response.ok) throw new Error('not OK');

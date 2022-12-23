@@ -7,7 +7,6 @@
           "": { type: "" };
 "done.invoke.fetchNews": { type: "done.invoke.fetchNews"; data: unknown; __tip: "See the XState TS docs to learn how to strongly type this." };
 "error.platform.fetchNews": { type: "error.platform.fetchNews"; data: unknown };
-"xstate.after(timeToGetEnvironmentVariables)#main.cache": { type: "xstate.after(timeToGetEnvironmentVariables)#main.cache" };
 "xstate.init": { type: "xstate.init" };
         };
         invokeSrcNameMap: {
@@ -15,24 +14,24 @@
         };
         missingImplementations: {
           actions: "forwardDefaultQuery" | "forwardQuery" | "setInput" | "setNews";
-          delays: "timeToGetEnvironmentVariables";
+          delays: never;
           guards: "isInputIsEmpty";
           services: never;
         };
         eventsCausingActions: {
-          "forwardDefaultQuery": "xstate.after(timeToGetEnvironmentVariables)#main.cache";
+          "forwardDefaultQuery": "xstate.init";
 "forwardQuery": "SEARCH";
 "setInput": "INPUT";
 "setNews": "done.invoke.fetchNews";
         };
         eventsCausingDelays: {
-          "timeToGetEnvironmentVariables": "xstate.after(timeToGetEnvironmentVariables)#main.cache" | "xstate.init";
+          
         };
         eventsCausingGuards: {
           "isInputIsEmpty": "";
         };
         eventsCausingServices: {
-          "fetchNews": "" | "xstate.after(timeToGetEnvironmentVariables)#main.cache" | "xstate.init";
+          "fetchNews": "" | "xstate.init";
         };
         matchesStates: "cache" | "work" | "work.search" | "work.search.active" | "work.search.active.idle" | "work.search.active.loading" | "work.search.checking" | "work.search.inactive" | { "work"?: "search" | { "search"?: "active" | "checking" | "inactive" | { "active"?: "idle" | "loading"; }; }; };
         tags: never;

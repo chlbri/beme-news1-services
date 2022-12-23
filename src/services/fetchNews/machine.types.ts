@@ -1,8 +1,8 @@
-import type { NewsResponse } from '~entities/objects';
-import type { Category } from '~entities/strings';
+import type { NewsResponse } from 'src/entities/objects';
+import type { Category } from 'src/entities/strings';
 import type { ERRORS } from './constants';
 
-type Query = {
+export type FetchNewsQuery = {
   categories?: Category[];
   offset?: number;
   limit?: number;
@@ -20,8 +20,8 @@ export type Context = {
   pagination?: NewsResponse['pagination'];
   categories?: string;
   _errors?: Errors['object'];
-} & Omit<Query, 'categories'>;
+};
 
 export type Events = {
   type: 'QUERY';
-} & Query;
+} & FetchNewsQuery;
