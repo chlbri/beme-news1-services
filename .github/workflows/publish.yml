@@ -15,15 +15,6 @@ jobs:
       - name: Checkout repo
         uses: actions/checkout@v3
 
-      - name: Setup node for publication
-        uses: actions/setup-node@v3
-        with:
-          node-version: '16.x'
-          registry-url: 'https://npm.pkg.github.com'
-          always-auth: true
-          # Defaults to the user or organization that owns the workflow file
-          # scope: '@chlbri'
-
       - name: Setup pnpm
         uses: pnpm/action-setup@v2.2.2
         id: pnpm-install
@@ -33,6 +24,15 @@ jobs:
 
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
+
+      - name: Setup node for publication
+        uses: actions/setup-node@v3
+        with:
+          node-version: '16.x'
+          registry-url: 'https://npm.pkg.github.com'
+          always-auth: true
+          # Defaults to the user or organization that owns the workflow file
+          # scope: '@chlbri'
 
       - run: npm publish
         env:
