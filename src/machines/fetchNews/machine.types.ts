@@ -1,5 +1,4 @@
-import type { NewsResponse } from 'src/entities/objects';
-import type { Category } from 'src/entities/strings';
+import type { Category, NewsResponse } from '~schemas';
 import type { ERRORS } from './constants';
 
 export type FetchNewsQuery = {

@@ -1,10 +1,9 @@
-import { NewsResponse } from 'src/entities/objects';
-import { CATEGORIES } from 'src/entities/strings';
 import { createMachine } from 'xstate';
-import fetchNews from '../fetchNews/machine';
+import { FetchNewsMachine as fetchNews } from '~machines/fetchNews/machine';
+import { CATEGORIES, NewsResponse } from '~schemas';
 import { Context, Events } from './machine.types';
 
-export const machine = createMachine(
+export const MainMachine = createMachine(
   {
     schema: {
       context: {} as Context,

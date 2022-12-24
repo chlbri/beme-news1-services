@@ -1,4 +1,4 @@
-import { Category } from 'lib/entities/strings';
+import { Category } from '~schemas';
 
 export type Context = {
   currentPage: string;

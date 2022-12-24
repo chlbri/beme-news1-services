@@ -1,12 +1,12 @@
 import { assign } from '@xstate/immer';
-import { NewsResponse, newsResponseSchema } from 'src/entities/objects';
 import { createMachine } from 'xstate';
 import { escalate } from 'xstate/lib/actions';
+import { NewsResponse, newsResponseSchema } from '~schemas';
+import { buildURL } from './buildURL';
 import { ERRORS } from './constants';
-import { buildURL } from './functions';
 import { Context, Events } from './machine.types';
 
-const machine = createMachine(
+export const FetchNewsMachine = createMachine(
   {
     id: 'fetchNews',
     initial: 'environment',
@@ -134,7 +134,6 @@ const machine = createMachine(
       assignAPI_KEY: assign((context, { data }) => {
         context.API_KEY = data;
       }),
-
       buildURL: assign((context, { categories, limit, offset }) => {
         context.URL = buildURL({
           API_KEY: context.API_KEY,
@@ -144,6 +143,8 @@ const machine = createMachine(
           offset,
         });
       }),
+
+      // #region Fetch actions
       assignResponse: assign((context, { data }) => {
         context.response = data;
       }),
@@ -156,9 +157,9 @@ const machine = createMachine(
       assignPagination: assign((context, { data }) => {
         context.pagination = data.pagination;
       }),
+      // #endregion
 
       // #region Errors
-      //TODO: test the escalations
       escalateFetchError: escalate(({ _errors }) => _errors?.FETCH_ERROR),
       escalateJsonError: escalate(({ _errors }) => _errors?.JSON_ERROR),
       escalateZodError: escalate(({ _errors }) => _errors?.ZOD_ERROR),
@@ -200,5 +201,3 @@ const machine = createMachine(
     },
   },
 );
-
-export default machine;
