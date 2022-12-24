@@ -15,16 +15,6 @@ jobs:
       - name: Checkout repo
         uses: actions/checkout@v3
 
-      - name: Setup pnpm
-        uses: pnpm/action-setup@v2.2.2
-        id: pnpm-install
-        with:
-          version: latest
-          run_install: false
-
-      - name: Install dependencies
-        run: pnpm install --frozen-lockfile
-
       - name: Setup node for publication
         uses: actions/setup-node@v3
         with:
@@ -34,6 +24,13 @@ jobs:
           # Defaults to the user or organization that owns the workflow file
           scope: '@chlbri'
           token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v2.2.2
+        id: pnpm-install
+        with:
+          version: latest
+          run_install: false
 
       - run: npm publish
         env:
