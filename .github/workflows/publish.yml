@@ -32,7 +32,7 @@ jobs:
           registry-url: 'https://npm.pkg.github.com'
           always-auth: true
           # Defaults to the user or organization that owns the workflow file
-          scope: 'chlbri'
+          scope: '@chlbri'
 
       - run: npm publish
         env:
