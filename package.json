@@ -10,8 +10,12 @@
   "main": "lib/index.js",
   "typings": "lib/index.d.ts",
   "module": "lib/index.mjs",
+  "publishConfig": {
+    "@chlbri:registry": "https://npm.pkg.github.com"
+  },
   "files": [
-    "lib"
+    "lib",
+    "public"
   ],
   "engines": {
     "node": ">=12"
