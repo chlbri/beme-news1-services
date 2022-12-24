@@ -44,7 +44,7 @@ const { assign, promise, start, matches, stop, send, context } = interpret(
   }),
 );
 
-describe.only('Worflow 1', () => {
+describe('Worflow 1', () => {
   useEnvDefined();
   test('Start the machine', () => {
     start();
