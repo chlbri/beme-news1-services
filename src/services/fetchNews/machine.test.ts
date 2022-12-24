@@ -1,5 +1,5 @@
 import { voidNothing } from '@bemedev/fsf';
-import testMachine from '@bemedev/x-test';
+import { interpret } from '@bemedev/x-test';
 import { afterAll, beforeAll, describe, test } from 'vitest';
 import { advanceByTime } from '../../fixtures/advanceByTime';
 import { useTestConfig } from '../../fixtures/config';
@@ -35,15 +35,14 @@ function useEnvUndefined() {
 
 useTestConfig();
 
-const { assign, promise, escalate, start, matches, stop, send, context } =
-  testMachine(
-    machine.withConfig({
-      actions: {
-        escalateNoAPI_URL: voidNothing,
-        escalateNoAPI_KEY: voidNothing,
-      },
-    }),
-  );
+const { assign, promise, start, matches, stop, send, context } = interpret(
+  machine.withConfig({
+    actions: {
+      escalateNoAPI_URL: voidNothing,
+      escalateNoAPI_KEY: voidNothing,
+    },
+  }),
+);
 
 describe.only('Worflow 1', () => {
   useEnvDefined();
@@ -53,7 +52,7 @@ describe.only('Worflow 1', () => {
   });
 
   test('', () => {
-    matches('environment.API_URL');
+    matches('constructErrors');
   });
 
   test('Advance in time', () => advanceByTime(1000));
@@ -61,7 +60,7 @@ describe.only('Worflow 1', () => {
   // send('QUERY');
 
   test('', () => {
-    matches('environment.API_URL');
+    matches('idle');
     context('MEDIA_STACK_API_URL', ctx => ctx.API_URL);
   });
 });

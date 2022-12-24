@@ -1,5 +1,6 @@
-import testMachine from '@bemedev/x-test';
+import { interpret } from '@bemedev/x-test';
 import { afterAll, beforeAll, describe, expect, test, vi } from 'vitest';
+import { Category } from '../../entities/strings';
 import { ERRORS } from './constants';
 import machine from './machine';
 
@@ -31,12 +32,9 @@ function useEnvUndefined() {
   });
 }
 
-/**
- * @vitest-environment jsdom
- */
 describe('Acceptance test', () => {
   // const _machine = mockMachine(machine);
-  const { assign, promise, escalate } = testMachine(machine);
+  const { assign, promise, sendAction } = interpret(machine);
   useEnvDefined();
 
   describe('Promises', () => {
@@ -213,7 +211,7 @@ describe('Acceptance test', () => {
         // #region Prepare
         const API_URL = process.env.MEDIA_STACK_API_URL;
         const API_KEY = process.env.MEDIA_STACK_APIKEY;
-        const categories = ['business', 'health'];
+        const categories: Category[] = ['business', 'health'];
         const _categories = 'business,health';
         const URL = `${API_URL}?access_key=${API_KEY}&keywords=${_categories}`;
         // #endregion
@@ -327,20 +325,110 @@ describe('Acceptance test', () => {
       };
 
       [
-        'escaladeFetchError',
-        'escaladeJsonError',
-        'escaladeZodError',
+        'escalateFetchError',
+        'escalateJsonError',
+        'escalateZodError',
         'escalateNoAPI_KEY',
         'escalateNoAPI_URL',
       ].forEach(escalateTest);
       //TODO: test the escalations
 
-      describe('constructErrors', () => {
+      describe('#1: escaladeFetchError', () => {
+        const [acceptance, expect] = sendAction('escalateFetchError');
+
+        test('#1: Acceptance', () => acceptance());
+
+        test('#2: It escalates the fetch error', () => {
+          expect({
+            expected: {
+              type: 'xstate.error',
+              data: ERRORS.object.FETCH_ERROR,
+            },
+            context: {
+              _errors: ERRORS.object,
+            },
+          });
+        });
+      });
+
+      describe('#2: escalateJsonError', () => {
+        const [acceptance, expect] = sendAction('escalateJsonError');
+
+        test('#1: Acceptance', () => acceptance());
+
+        test('#2: It escalates the JSON error', () => {
+          expect({
+            expected: {
+              type: 'xstate.error',
+              data: ERRORS.object.JSON_ERROR,
+            },
+            context: {
+              _errors: ERRORS.object,
+            },
+          });
+        });
+      });
+
+      describe('#3: escalateZodError', () => {
+        const [acceptance, expect] = sendAction('escalateZodError');
+
+        test('#1: Acceptance', () => acceptance());
+
+        test('#2: It escalates the zod error', () => {
+          expect({
+            expected: {
+              type: 'xstate.error',
+              data: ERRORS.object.ZOD_ERROR,
+            },
+            context: {
+              _errors: ERRORS.object,
+            },
+          });
+        });
+      });
+
+      describe('#4: escalateNoAPI_KEY', () => {
+        const [acceptance, expect] = sendAction('escalateNoAPI_KEY');
+
+        test('#1: Acceptance', () => acceptance());
+
+        test('#2: It escalates the fetch error', () => {
+          expect({
+            expected: {
+              type: 'xstate.error',
+              data: ERRORS.object.API_KEY_ERROR,
+            },
+            context: {
+              _errors: ERRORS.object,
+            },
+          });
+        });
+      });
+
+      describe('#5: escalateNoAPI_URL', () => {
+        const [acceptance, expect] = sendAction('escalateNoAPI_URL');
+
+        test('#1 : Acceptance', () => acceptance());
+
+        test('#2: It escalates the fetch error', () => {
+          expect({
+            expected: {
+              type: 'xstate.error',
+              data: ERRORS.object.API_URL_ERROR,
+            },
+            context: {
+              _errors: ERRORS.object,
+            },
+          });
+        });
+      });
+
+      describe('#6: constructErrors', () => {
         const [acceptance, expect] = assign('constructErrors');
 
-        test('#1 -> Acceptance', () => acceptance());
+        test('#1: Acceptance', () => acceptance());
 
-        test('It constructs the errors', () => {
+        test('#2: It constructs the errors', () => {
           const _errors = ERRORS.object;
           expect({
             expected: {
