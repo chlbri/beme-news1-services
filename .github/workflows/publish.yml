@@ -33,6 +33,7 @@ jobs:
           always-auth: true
           # Defaults to the user or organization that owns the workflow file
           scope: '@chlbri'
+          token: ${{ secrets.GITHUB_TOKEN }}
 
       - run: npm publish
         env:
