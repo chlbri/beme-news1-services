@@ -1,6 +1,6 @@
 {
   "version": "0.0.1",
-  "name": "bemedev-news1-services",
+  "name": "@chlbri/bemedev-news1-services",
   "author": {
     "email": "bri_lvi@icloud.com",
     "name": "chlbri",
@@ -10,8 +10,9 @@
   "main": "lib/index.js",
   "typings": "lib/index.d.ts",
   "module": "lib/index.mjs",
-  "publishConfig": {
-    "@chlbri:registry": "https://npm.pkg.github.com"
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/chlbri/beme-news1-services"
   },
   "files": [
     "lib",
@@ -39,30 +40,20 @@
   },
   "devDependencies": {
     "@bemedev/x-test": "0.2.0",
-    "@rollup/plugin-alias": "^4.0.2",
     "@types/node": "^18.11.17",
     "@typescript-eslint/eslint-plugin": "^5.46.1",
     "@typescript-eslint/parser": "^5.46.1",
-    "esbuild": "^0.16.8",
     "eslint": "^8.30.0",
     "husky": "^8.0.2",
-    "jsdom": "^20.0.3",
     "onchange": "^7.1.0",
     "prettier": "^2.8.1",
     "pretty-quick": "^3.1.3",
     "rollup": "^3.7.4",
-    "rollup-plugin-dts": "^5.0.0",
-    "rollup-plugin-esbuild": "^5.0.0",
     "rollup-plugin-node-externals": "^5.0.3",
-    "rollup-plugin-terser": "^7.0.2",
     "rollup-plugin-tsconfig-paths": "^1.4.0",
-    "rollup-plugin-typescript-paths": "^1.4.0",
     "rollup-plugin-typescript2": "^0.34.1",
-    "ts-node": "^10.9.1",
     "tslib": "^2.4.1",
-    "ttypescript": "^1.5.15",
     "typescript": "^4.9.4",
-    "typescript-transform-paths": "^3.4.4",
     "vite": "3.2.4",
     "vite-tsconfig-paths": "^4.0.3",
     "vitest": "0.25.2"

@@ -1,4 +1,4 @@
-name: CI
+name: Publish
 
 on:
   push:
@@ -15,16 +15,11 @@ jobs:
       - name: Checkout repo
         uses: actions/checkout@v3
 
-      - name: 'Install node'
-        uses: actions/setup-node@v3
-        with:
-          node-version: 16
-
       - name: Setup pnpm
         uses: pnpm/action-setup@v2.2.2
         id: pnpm-install
         with:
-          version: 7
+          version: latest
           run_install: false
 
       - name: Get pnpm store directory
@@ -43,6 +38,9 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-pnpm-store-
 
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
       - name: Setup node for publication
         uses: actions/setup-node@v3
         with:
@@ -50,10 +48,7 @@ jobs:
           registry-url: 'https://npm.pkg.github.com'
           always-auth: true
           # Defaults to the user or organization that owns the workflow file
-          # scope: '@chlbri'
-
-      - name: Install dependencies
-        run: pnpm install --frozen-lockfile
+          scope: '@chlbri'
 
       - run: npm publish
         env:
