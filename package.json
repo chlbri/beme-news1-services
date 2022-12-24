@@ -27,7 +27,6 @@
     "prepare": "husky install",
     "build": "rm -rf lib && pnpm run rollup",
     "test": "vitest run --passWithNoTests",
-    "build:test": "pnpm run build && pnpm run test",
     "test:watch": "vitest --passWithNoTests",
     "remove": "rm -rf lib node_modules pnpm-lock.yaml",
     "clean": "pnpm run remove && pnpm run config",
@@ -35,7 +34,7 @@
     "eslint": "eslint \"{src/**/*,App}.{ts,tsx}\"",
     "lint": "pnpm run prettier && pnpm run eslint --fix",
     "lint-watch": "onchange --await-write-finish 5500 \"**/*\" -- pnpm run lint",
-    "prepublishOnly": "pnpm run lint && pnpm run build"
+    "prepublishOnly": "pnpm run build"
   },
   "devDependencies": {
     "@bemedev/x-test": "0.2.0",
