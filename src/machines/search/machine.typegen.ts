@@ -13,14 +13,14 @@
           "fetchNews": "done.invoke.fetchNews";
         };
         missingImplementations: {
-          actions: "forwardDefaultQuery" | "forwardQuery" | "setInput" | "setNews";
+          actions: never;
           delays: never;
-          guards: "isInputIsEmpty";
+          guards: never;
           services: never;
         };
         eventsCausingActions: {
           "forwardDefaultQuery": "xstate.init";
-"forwardQuery": "SEARCH";
+"forwardQuery": "QUERY";
 "setInput": "INPUT";
 "setNews": "done.invoke.fetchNews";
         };
@@ -28,7 +28,7 @@
           
         };
         eventsCausingGuards: {
-          "isInputIsEmpty": "";
+          "hasInput": "";
         };
         eventsCausingServices: {
           "fetchNews": "" | "xstate.init";

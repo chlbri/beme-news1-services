@@ -1,9 +1,11 @@
-import { createMachine } from 'xstate';
+import { assign } from '@xstate/immer';
+import { createMachine, forwardTo, send } from 'xstate';
+import { isDefined } from '~helpers/strings';
 import { FetchNewsMachine as fetchNews } from '~machines/fetchNews/machine';
 import { CATEGORIES, NewsResponse } from '~schemas';
 import { Context, Events } from './machine.types';
 
-export const MainMachine = createMachine(
+export const SearchMachine = createMachine(
   {
     schema: {
       context: {} as Context,
@@ -67,7 +69,7 @@ export const MainMachine = createMachine(
                       ],
                     },
                     on: {
-                      SEARCH: {
+                      QUERY: {
                         actions: 'forwardQuery',
                         description: 'Forward with parameters',
                       },
@@ -83,11 +85,11 @@ export const MainMachine = createMachine(
               checking: {
                 always: [
                   {
-                    target: 'inactive',
-                    cond: 'isInputIsEmpty',
+                    target: 'active',
+                    cond: 'hasInput',
                   },
                   {
-                    target: 'active',
+                    target: 'inactive',
                   },
                 ],
               },
@@ -105,7 +107,19 @@ export const MainMachine = createMachine(
     },
   },
   {
-    actions: {},
+    actions: {
+      forwardDefaultQuery: send('QUERY', { to: 'fetchNews' }),
+      forwardQuery: forwardTo('fetchNews'),
+      setNews: assign((ctx, { data }) => {
+        ctx.news = data.news;
+      }),
+      setInput: assign((ctx, { input }) => {
+        ctx.input = input;
+      }),
+    },
+    guards: {
+      hasInput: ({ input }) => isDefined(input),
+    },
     services: {
       fetchNews,
     },
