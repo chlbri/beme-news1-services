@@ -24,7 +24,11 @@ export const SearchMachine = createMachine(
       cache: {
         description:
           '[service_link](https://stately.ai/registry/editor/5671d57c-0419-4200-9d67-c3a500c1690d?machineId=81fb380e-0af3-428d-8947-3b07c1c59f66)',
-        entry: 'forwardDefaultQuery',
+        after: {
+          200: {
+            actions: 'forwardDefaultQuery',
+          },
+        },
         invoke: {
           src: 'fetchNews',
           id: 'fetchNews',
