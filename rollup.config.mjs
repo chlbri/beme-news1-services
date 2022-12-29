@@ -1,6 +1,7 @@
 import externals from 'rollup-plugin-node-externals';
 import tsConfigPaths from 'rollup-plugin-tsconfig-paths';
-import typescript from 'rollup-plugin-typescript2';
+import typescript2 from 'rollup-plugin-typescript2';
+import typescript from 'ttypescript';
 
 const tsconfig = 'tsconfig.build.json';
 
@@ -11,8 +12,24 @@ export default {
   input: 'src/index.ts',
 
   plugins: [
-    tsConfigPaths({ tsConfigPath: tsconfig }),
-    typescript({ tsconfig }),
+    tsConfigPaths({
+      tsConfigPath: tsconfig,
+    }),
+    typescript2({
+      tsconfig,
+      typescript,
+      tsconfigDefaults: {
+        compilerOptions: {
+          plugins: [
+            { transform: 'typescript-transform-paths' },
+            {
+              transform: 'typescript-transform-paths',
+              afterDeclarations: true,
+            },
+          ],
+        },
+      },
+    }),
     externals({}),
   ],
 

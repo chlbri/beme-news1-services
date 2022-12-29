@@ -10,6 +10,13 @@
   "main": "lib/index.js",
   "typings": "lib/index.d.ts",
   "module": "lib/index.mjs",
+  "exports": {
+    ".": {
+      "import": "./lib/index.mjs",
+      "require": "./lib/index.js"
+    },
+    "./package.json": "./package.json"
+  },
   "repository": {
     "type": "git",
     "url": "https://github.com/chlbri/beme-news1-services"
@@ -21,6 +28,7 @@
   "engines": {
     "node": ">=14"
   },
+
   "scripts": {
     "config": "pnpm install",
     "rollup": "rollup -c",
@@ -51,8 +59,11 @@
     "rollup-plugin-node-externals": "^5.0.3",
     "rollup-plugin-tsconfig-paths": "^1.4.0",
     "rollup-plugin-typescript2": "^0.34.1",
+    "ts-node": "^10.9.1",
     "tslib": "^2.4.1",
+    "ttypescript": "^1.5.15",
     "typescript": "^4.9.4",
+    "typescript-transform-paths": "^3.4.4",
     "vite": "3.2.4",
     "vite-tsconfig-paths": "^4.0.3",
     "vitest": "0.25.2"
@@ -61,7 +72,6 @@
     "@bemedev/fsf": "^0.6.2",
     "@xstate/immer": "^0.3.1",
     "immer": "^9.0.16",
-    "node-fetch": "^3.3.0",
     "xstate": "4.35.1",
     "zod": "^3.20.2"
   }

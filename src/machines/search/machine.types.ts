@@ -1,14 +1,14 @@
-import { FetchNewsQuery } from '~machines/fetchNews/machine.types';
-import { Category, NewsResponse } from '~schemas';
+import { FetchArticleQuery } from '~machines/fetchNews/machine.types';
+import { ArticlesResponse, Category } from '~schemas';
 
 export type Context = {
   currentPage: string;
   input?: string;
   categories: Category[];
-  news?: NewsResponse['news'];
+  articles?: ArticlesResponse['articles'];
 };
 
 export type Events =
   | { type: 'INPUT'; input: string }
-  | ({ type: 'QUERY' } & FetchNewsQuery)
+  | ({ type: 'QUERY' } & FetchArticleQuery)
   | { type: 'NAVIGATE'; page: string };

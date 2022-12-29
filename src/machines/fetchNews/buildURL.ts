@@ -1,12 +1,12 @@
 import { createLogic, interpret } from '@bemedev/fsf';
-import { Context, FetchNewsQuery } from './machine.types';
+import { Context, FetchArticleQuery } from './machine.types';
 
 const logic = createLogic({
   schema: {
     data: {} as string | undefined,
     context: {} as Pick<Context, 'URL'> & Pick<Context, 'categories'>,
     events: {} as Pick<Context, 'API_KEY' | 'API_URL'> &
-      Pick<FetchNewsQuery, 'categories' | 'offset' | 'limit'>,
+      Pick<FetchArticleQuery, 'categories' | 'offset' | 'limit'>,
   },
   context: {},
   initial: 'primary',

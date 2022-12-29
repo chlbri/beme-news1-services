@@ -35,7 +35,6 @@
 "assignAPI_URL": "done.invoke.fetchNews.environment.API_URL:invocation[0]";
 "assignJSON": "done.invoke.json";
 "assignNews": "done.invoke.zod";
-"assignPagination": "done.invoke.zod";
 "assignResponse": "done.invoke.fetch";
 "buildURL": "QUERY";
 "constructErrors": "";

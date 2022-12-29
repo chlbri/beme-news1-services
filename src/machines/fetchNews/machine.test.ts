@@ -42,7 +42,7 @@ describe('Worflow 1', () => {
         count: 100,
         total: 100,
       },
-      news: [],
+      articles: [],
     }),
   });
 

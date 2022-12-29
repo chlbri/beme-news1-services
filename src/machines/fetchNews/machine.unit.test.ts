@@ -122,7 +122,7 @@ describe('Promises', () => {
           count: 10,
           total: 10,
         },
-        news: [],
+        articles: [],
       };
       await expect({
         expected: json,
@@ -138,7 +138,7 @@ describe('Promises', () => {
           count: 10,
           total: '10',
         },
-        news: [],
+        newsser: [],
       };
       await expect({
         expected: json,
@@ -253,41 +253,15 @@ describe('Actions', () => {
           count: 10,
           total: 10,
         },
-        news: [{ name: 'Obélix' }],
+        articles: [{ name: 'Obélix' }],
       } as any;
       expect({
         expected: {
-          news: data.news,
+          articles: data.articles,
         },
         context: {},
         //@ts-ignore safe
         event: { type: '', data },
-      });
-    });
-  });
-
-  describe('#7 -> assignPagination', () => {
-    const [acceptance, expect] = assign('assignPagination');
-
-    test('#1 -> Acceptance', () => acceptance());
-
-    test('It assigns the pagination', () => {
-      const data = {
-        pagination: {
-          limit: 10,
-          offset: 0,
-          count: 10,
-          total: 10,
-        },
-        news: [{ name: 'Obélix' }],
-      } as any;
-      expect({
-        expected: {
-          pagination: data.pagination,
-        },
-        context: {},
-        //@ts-ignore safe
-        event: { data },
       });
     });
   });

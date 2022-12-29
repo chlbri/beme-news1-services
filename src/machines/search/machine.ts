@@ -2,7 +2,7 @@ import { assign } from '@xstate/immer';
 import { createMachine, forwardTo, send } from 'xstate';
 import { isDefined } from '~helpers/strings';
 import { FetchNewsMachine as fetchNews } from '~machines/fetchNews/machine';
-import { CATEGORIES, NewsResponse } from '~schemas';
+import { ArticlesResponse, CATEGORIES } from '~schemas';
 import { Context, Events } from './machine.types';
 
 export const SearchMachine = createMachine(
@@ -11,7 +11,7 @@ export const SearchMachine = createMachine(
       context: {} as Context,
       events: {} as Events,
       services: {} as {
-        fetchNews: { data: NewsResponse };
+        fetchNews: { data: ArticlesResponse };
       },
     },
     tsTypes: {} as import('./machine.typegen').Typegen0,
@@ -115,7 +115,7 @@ export const SearchMachine = createMachine(
       forwardDefaultQuery: send('QUERY', { to: 'fetchNews' }),
       forwardQuery: forwardTo('fetchNews'),
       setNews: assign((ctx, { data }) => {
-        ctx.news = data.news;
+        ctx.articles = data.articles;
       }),
       setInput: assign((ctx, { input }) => {
         ctx.input = input;

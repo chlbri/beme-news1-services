@@ -1,7 +1,7 @@
 import { assign } from '@xstate/immer';
 import { createMachine } from 'xstate';
 import { escalate } from 'xstate/lib/actions';
-import { NewsResponse, newsResponseSchema } from '~schemas';
+import { ArticlesResponse, responseArticleSchema } from '~schemas';
 import { buildURL } from './buildURL';
 import { ERRORS } from './constants';
 import { Context, Events } from './machine.types';
@@ -87,7 +87,7 @@ export const FetchNewsMachine = createMachine(
           id: 'zod',
           onDone: {
             target: 'success',
-            actions: ['assignNews', 'assignPagination'],
+            actions: ['assignNews'],
           },
           onError: {
             target: 'error',
@@ -97,9 +97,8 @@ export const FetchNewsMachine = createMachine(
       },
       success: {
         type: 'final',
-        data: ({ news, pagination }) => ({
-          news,
-          pagination,
+        data: ({ articles }) => ({
+          articles,
         }),
       },
       error: {
@@ -116,7 +115,7 @@ export const FetchNewsMachine = createMachine(
         get_API_KEY: { data: string };
         fetchNews: { data: Response };
         json: { data: unknown };
-        zod: { data: NewsResponse };
+        zod: { data: ArticlesResponse };
       },
     },
     predictableActionArguments: true,
@@ -152,11 +151,9 @@ export const FetchNewsMachine = createMachine(
         context.json = data;
       }),
       assignNews: assign((context, { data }) => {
-        context.news = data.news;
+        context.articles = data.articles;
       }),
-      assignPagination: assign((context, { data }) => {
-        context.pagination = data.pagination;
-      }),
+
       // #endregion
 
       // #region Errors
@@ -197,7 +194,7 @@ export const FetchNewsMachine = createMachine(
         return data;
       },
 
-      zod: ({ json }) => newsResponseSchema.parseAsync(json),
+      zod: ({ json }) => responseArticleSchema.parseAsync(json),
     },
   },
 );

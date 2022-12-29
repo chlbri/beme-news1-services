@@ -1,7 +1,7 @@
-import type { Category, NewsResponse } from '~schemas';
+import type { ArticlesResponse, Category } from '~schemas';
 import type { ERRORS } from './constants';
 
-export type FetchNewsQuery = {
+export type FetchArticleQuery = {
   categories?: Category[];
   offset?: number;
   limit?: number;
@@ -15,12 +15,11 @@ export type Context = {
   URL?: string;
   response?: Response;
   json?: unknown;
-  news?: NewsResponse['news'];
-  pagination?: NewsResponse['pagination'];
+  articles?: ArticlesResponse['articles'];
   categories?: string;
   _errors?: Errors['object'];
 };
 
 export type Events = {
   type: 'QUERY';
-} & FetchNewsQuery;
+} & FetchArticleQuery;
