@@ -7,6 +7,7 @@
           "": { type: "" };
 "done.invoke.fetchNews": { type: "done.invoke.fetchNews"; data: unknown; __tip: "See the XState TS docs to learn how to strongly type this." };
 "error.platform.fetchNews": { type: "error.platform.fetchNews"; data: unknown };
+"xstate.after(200)#main.cache": { type: "xstate.after(200)#main.cache" };
 "xstate.init": { type: "xstate.init" };
         };
         invokeSrcNameMap: {
@@ -19,7 +20,7 @@
           services: never;
         };
         eventsCausingActions: {
-          "forwardDefaultQuery": "xstate.init";
+          "forwardDefaultQuery": "xstate.after(200)#main.cache";
 "forwardQuery": "QUERY";
 "setInput": "INPUT";
 "setNews": "done.invoke.fetchNews";
