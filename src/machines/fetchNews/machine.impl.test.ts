@@ -1,9 +1,19 @@
 import { interpret } from '@bemedev/x-test';
-import { describe, test } from 'vitest';
+import { beforeAll, describe, test } from 'vitest';
 import { FetchNewsMachine } from './machine';
 
 const { start, matches, send, context, parentSend, stop } =
   interpret(FetchNewsMachine);
+
+beforeAll(() => {
+  if (!globalThis.fetch) {
+    import('node-fetch').then(
+      ({ default: fetch, Headers, Request, Response }) => {
+        Object.assign(globalThis, { fetch, Headers, Request, Response });
+      },
+    );
+  }
+});
 
 describe.skipIf(process.env.GITHUB_ACTIONS !== 'true')(
   'Implemantation test',
