@@ -6,13 +6,10 @@ const { start, matches, send, context, parentSend, stop } =
   interpret(FetchNewsMachine);
 
 beforeAll(() => {
-  if (!global.fetch) {
-    import('node-fetch').then(
-      ({ default: fetch, Headers, Request, Response }) => {
-        Object.assign(global, { fetch, Headers, Request, Response });
-      },
-    );
-  }
+  global.fetch = (input, init) =>
+    import('node-fetch').then(({ default: fetch }) =>
+      fetch(input as any, init as any),
+    ) as any;
 });
 
 describe.skipIf(process.env.GITHUB_ACTIONS !== 'true')(
