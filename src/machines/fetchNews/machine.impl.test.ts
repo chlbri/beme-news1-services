@@ -6,10 +6,10 @@ const { start, matches, send, context, parentSend, stop } =
   interpret(FetchNewsMachine);
 
 beforeAll(() => {
-  if (!globalThis.fetch) {
+  if (!global.fetch) {
     import('node-fetch').then(
       ({ default: fetch, Headers, Request, Response }) => {
-        Object.assign(globalThis, { fetch, Headers, Request, Response });
+        Object.assign(global, { fetch, Headers, Request, Response });
       },
     );
   }
